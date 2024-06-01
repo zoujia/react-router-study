@@ -1,5 +1,6 @@
-import { Outlet, useLoaderData, Form, redirect, NavLink, useNavigation } from "react-router-dom";
+import { Outlet, useLoaderData, Form, redirect, NavLink, useNavigation, useSubmit } from "react-router-dom";
 import { createContact, getContacts } from '../contacts';
+import { useEffect, useState } from "react";
 
 export async function action() {
     const contact = await createContact();
@@ -12,12 +13,25 @@ export async function loader ({ request }) {
     const q = url.searchParams.get('q');
 
     const contacts = await getContacts(q);
-    return { contacts };
+    return { contacts, q };
 }
 
 export default function Root() {
-    const { contacts } = useLoaderData();
+    const { contacts, q } = useLoaderData();
     const navigation = useNavigation();
+    // const [query, setQuery] = useState(q);
+    const submit = useSubmit();
+
+    const searching =  navigation.location &&
+        new URLSearchParams(navigation.location.search).has('q');
+
+    useEffect(() => {
+        // Solution-1: sync with DOM manipulation without react state
+        document.getElementById('q').value = q;
+
+        // Solution-2: controlled component
+        // setQuery(q);
+    }, [q]);
 
     return (
         <>
@@ -27,15 +41,25 @@ export default function Root() {
                     <Form id="search-form" role="search">
                         <input
                             id="q"
+                            className={searching ? 'loading' : ''}
                             aria-label="Search contacts"
                             placeholder="Search"
                             type="search"
                             name="q"
+                            defaultValue={q}
+                            // value={query}
+                            // onChange={(e) => setQuery(e.target.value)}
+                            onChange={(e) => {
+                                const isFirstSearch = q === null;
+                                submit(e.currentTarget.form, {
+                                    replace: !isFirstSearch
+                                });
+                            }}
                         />
                         <div
                             id="search-spinner"
                             aria-hidden
-                            hidden={true}
+                            hidden={!searching}
                         />
                         <div
                             className="sr-only"
