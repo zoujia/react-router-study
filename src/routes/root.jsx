@@ -1,4 +1,4 @@
-import { Outlet, useLoaderData, Form, redirect, NavLink } from "react-router-dom";
+import { Outlet, useLoaderData, Form, redirect, NavLink, useNavigation } from "react-router-dom";
 import { createContact, getContacts } from '../contacts';
 
 export async function action() {
@@ -7,20 +7,24 @@ export async function action() {
     return redirect(`/contacts/${contact.id}/edit`);
 }
 
-export async function loader () {
-    const contacts = await getContacts();
+export async function loader ({ request }) {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q');
+
+    const contacts = await getContacts(q);
     return { contacts };
 }
 
 export default function Root() {
     const { contacts } = useLoaderData();
+    const navigation = useNavigation();
 
     return (
         <>
             <div id="sidebar">
                 <h1>React Rooter Contacts</h1>
                 <div>
-                    <form id="search-form" role="search">
+                    <Form id="search-form" role="search">
                         <input
                             id="q"
                             aria-label="Search contacts"
@@ -37,7 +41,7 @@ export default function Root() {
                             className="sr-only"
                             aria-live="polite"
                         ></div>
-                    </form>
+                    </Form>
                     <Form method="post">
                         <button type="submit">New</button>
                     </Form>
@@ -71,7 +75,12 @@ export default function Root() {
                     )}
                 </nav>
             </div>
-            <div id="detail">
+            <div
+                id="detail"
+                className={
+                    navigation.state === 'loading' ? 'loading' : ''
+                }
+            >
                 <Outlet />
             </div>
         </>
