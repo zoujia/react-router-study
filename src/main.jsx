@@ -19,6 +19,10 @@ import DestroyContact, {
 } from './routes/destroy';
 import Index from './routes';
 
+function TestSpinner() {
+  return <div>Fallback-Spinner...</div>;
+}
+
 // Solution-2: create routes using JSX
 const routerUsingElements = createBrowserRouter(
   createRoutesFromElements(
@@ -96,6 +100,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={routerUsingElements} />
+    <RouterProvider router={routerUsingElements} fallbackElement={<TestSpinner />} />
   </React.StrictMode>,
 );

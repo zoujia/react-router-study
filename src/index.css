@@ -229,7 +229,8 @@ i {
   background: #e3e3e3;
 }
 
-#sidebar nav a.active {
+#sidebar nav a.active,
+#sidebar nav a.active2 {
   background: hsl(224, 98%, 58%);
   color: white;
 }

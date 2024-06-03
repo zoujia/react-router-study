@@ -76,8 +76,11 @@ export default function Root() {
                             <li key={contact.id}>
                                 <NavLink
                                     to={`contacts/${contact.id}`}
+                                    // passing a function to className
+                                    // to customzie the state class
+                                    // 'active' is default for active-state
                                     className={({isActive, isPending}) => {
-                                        return isActive ? 'active' : (isPending ? 'pending' : '');
+                                        return isActive ? 'active2' : (isPending ? 'pending' : '');
                                     }}
                                 >
                                     {contact.first || contact.last ? (
