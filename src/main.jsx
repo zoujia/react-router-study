@@ -18,6 +18,7 @@ import DestroyContact, {
   destroy as destroyAction
 } from './routes/destroy';
 import Index from './routes';
+import ReduxIndex from './pages/Redux';
 
 function TestSpinner() {
   return <div>Fallback-Spinner...</div>;
@@ -91,6 +92,11 @@ const router = createBrowserRouter([
             element: <DestroyContact />,
             action: destroyAction,
             errorElement: <div>Oops! There was an error.</div>
+          },
+          // redux pages
+          {
+            path: 'redux',
+            element: <ReduxIndex />
           }
         ]
       }
@@ -100,6 +106,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={routerUsingElements} fallbackElement={<TestSpinner />} />
+    <RouterProvider router={router} fallbackElement={<TestSpinner />} />
   </React.StrictMode>,
 );

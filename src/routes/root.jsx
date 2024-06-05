@@ -101,6 +101,14 @@ export default function Root() {
                         </p>
                     )}
                 </nav>
+                {/* Other navs */}
+                <nav>
+                    <ul>
+                        <li>
+                            <NavLink to="redux">Redux</NavLink>
+                        </li>
+                    </ul>
+                </nav>
             </div>
             <div
                 id="detail"

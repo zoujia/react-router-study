@@ -184,6 +184,10 @@ form[action$="destroy"] button {
   flex: 1;
   overflow: auto;
   padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+#sidebar nav + nav {
+  border-top: 1px solid #e3e3e3;
 }
 
 #sidebar nav a span {
