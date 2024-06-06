@@ -1,11 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement, incrementByAmount } from '../../store/counter/counterSlice';
+import { increment, decrement, incrementByAmount, incrementAsync, selectCount } from '../../store/counter/counterSlice';
 import { useState } from "react";
 
 export default function Counter() {
-    const count = useSelector(state => state.counter.value);
+    // const count = useSelector(state => state.counter.value);
+    const count = useSelector(selectCount);
     const dispatch = useDispatch();
     const [amount, setAmount] = useState(1);
+
+    const countPlusTwo = useSelector(state => state.counter.value + 2);
+    console.log('>> [Counter], countPlusTwo: ', countPlusTwo);
 
     return (
         <div>
@@ -17,11 +21,19 @@ export default function Counter() {
                 <div>
                     <button
                         aria-label="Increment value"
-                        onClick={() => dispatch(increment())}
+                        onClick={() => {
+                            const addAction = increment();
+                            console.log('>> [Counter], addAction: ', addAction);
+                            dispatch(addAction);
+                        }}
                     >Increment</button>{' '}
                     <button
                         aria-label="Decrement value"
-                        onClick={() => dispatch(decrement())}
+                        onClick={() => {
+                            const subtractAction = decrement();
+                            console.log('>> [Counter], subtractAction: ', subtractAction);
+                            dispatch(subtractAction);
+                        }}
                     >Decrement</button>{' '}
                     <input
                         type="number"
@@ -30,8 +42,15 @@ export default function Counter() {
                     />{' '}
                     <button
                         aria-label="Increment by amount"
-                        onClick={() => dispatch(incrementByAmount(amount))}
-                    >Increment by {amount}</button>
+                        onClick={() => {
+                            const amountAction = incrementByAmount(amount);
+                            console.log('>> [Counter], amountAction: ', amountAction);
+                            dispatch(amountAction);
+                        }}
+                    >Increment by {amount}</button>{' '}
+                    <button
+                        onClick={() => dispatch(incrementAsync(amount))}
+                    >Increment Async</button>
                 </div>
             </div>
         </div>
