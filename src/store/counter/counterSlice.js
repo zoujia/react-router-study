@@ -27,8 +27,9 @@ export const { increment, decrement, incrementByAmount } = counterSlice.actions;
 // needs redux-thunk middleware, which added by redux/toolkit automatically.
 export const incrementAsync = (amount) => (dispatch, getState) => {
     setTimeout(() => {
-        console.log('>> [incrementAsync], getState: ', getState());
+        console.log('>> [incrementAsync] before, getState: ', getState());
         dispatch(incrementByAmount(amount));
+        console.log('>> [incrementAsync] after, getState: ', getState());
     }, 1000);
 };
 
